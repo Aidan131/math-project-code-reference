@@ -4,7 +4,7 @@ from os import listdir
 import json
 import pandas as pd
 
-'''
+
 df = pd.read_csv('math-project\external_df.csv')
 df= df.loc[df['stage']=='test'][0:250]
 df.drop(['source','stage'],axis=1,inplace=True)
@@ -30,24 +30,28 @@ def handle_conversation():
     with open(r'math-project\try.txt','w') as f:
         f.writelines(context)
     f.close()
+def handle_data():
+    with open(r'math-project\try.txt','r') as f:
+        data = f.readlines()
+    f.close()
+    user_data = []
+    ai_data = []
+    for i in data:
+        if i.startswith('User'):
+            user_data.append(i)
+        elif i.startswith('AI'):
+            ai_data.append(i)
+    lst = []
+    for i in range(len(user_data)):
+        lst.append({'question':user_data[i],'answer':ai_data[i]})
+    with open(r'math-project\aisolve.json','w') as f:
+        json.dump(lst,f,indent=2) 
 if __name__ == '__main__':
     handle_conversation()
-'''
+    handle_data()
 
-with open(r'math-project\try.txt','r') as f:
-    data = f.readlines()
-f.close()
-user_data = []
-ai_data = []
-for i in data:
-    if i.startswith('User'):
-        user_data.append(i)
-    elif i.startswith('AI'):
-        ai_data.append(i)
-lst = []
-for i in range(len(user_data)):
-    lst.append({'question':user_data[i],'answer':ai_data[i]})
-with open(r'math-project\aisolve.json','w') as f:
-    json.dump(lst,f,indent=2)   
+  
     
+
+
 
